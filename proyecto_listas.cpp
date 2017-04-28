@@ -53,6 +53,9 @@ void buscar_eliminar(Nodo * cabeza,Nodo *cola, int);
 void buscar_listas(Nodo * cabeza, int);
 void imprimir_listas_completa(Nodo * cabeza);
 void editar_listas(Nodo *, int , int);
+void insertar_lista_inicio(Nodo *&,Nodo *&,int);
+void insertar_lista_final(Nodo *&,Nodo *& ,int );
+
 
 //VARIABLES
 void ini_lifo();
@@ -140,8 +143,7 @@ void menu_lifo(){
                 do{
                     printf("\nIngrese un numero: ");
                     scanf("%d",&n);
-                    if(n!=0)
-                    insertar(pila, n);
+                    if(n!=0)insertar(pila, n);
                 }while(n!=0);
                 break;
             case 3:
@@ -314,8 +316,9 @@ void Eliminar_dato(Nodo *&pila,int eliminar)
 {
     Nodo *primero=reservar_memoria;
     Nodo *anterior=reservar_memoria;
-    anterior=primero;
-    primero=pila;
+    Nodo *aux=reservar_memoria;
+    primero = pila;
+    anterior = primero;
 
     if(pila!=NULL)
     {
@@ -337,6 +340,7 @@ void Eliminar_dato(Nodo *&pila,int eliminar)
             }
             anterior=primero;
             primero=primero->siguiente;
+
         }
     }else
     {
@@ -1110,7 +1114,7 @@ void submenu_imprimir_simple(Nodo *cabeza, Nodo *cola){
 
 
 void submenu_insertar_simple(Nodo *cabeza, Nodo *cola){
-    int opcion;
+    int opcion,dato_ingresado;
     do{
         printf("\n***ELIJA EN QUE POSICION DESEA INSERTAR***\n");
         printf("1 Al inicio\n");
@@ -1127,10 +1131,15 @@ void submenu_insertar_simple(Nodo *cabeza, Nodo *cola){
             case 0: printf("\nvuelve pronto\n");
                 break;
             case 1:
-                printf("al inicio");
+                printf("\nDATO INGRESADO AL INICIO\n");
+                printf("\ningrese el dato\n");
+                scanf("%d",&dato_ingresado);
+                insertar_lista_inicio(cabeza,cola,dato_ingresado);
                 break;
             case 2:
-                printf("al final");
+                printf("\nDATO INGRESADO AL INICIO\n");
+                scanf("%d",&dato_ingresado);
+                insertar_lista_final(cabeza,cola,dato_ingresado);
                 break;
             case 3:
                 printf("despues de un nodo");
@@ -1154,6 +1163,45 @@ void submenu_insertar_simple(Nodo *cabeza, Nodo *cola){
         system("cls");
     }while(opcion != 0);
 }
+
+void insertar_lista_inicio(Nodo *& cabeza,Nodo *& cola,int num)
+{
+    Nodo *nuevo_nodo = reservar_memoria;
+    Nodo *anterior = reservar_memoria;
+    nuevo_nodo -> dato = num;
+
+    if(vacia_listas(cabeza)){
+        cabeza = nuevo_nodo;
+        nuevo_nodo -> siguiente = NULL;
+        cola=nuevo_nodo;
+    }else{
+
+
+        cabeza = nuevo_nodo;
+        cabeza->siguiente=anterior;
+        nuevo_nodo ->siguiente=anterior->siguiente;
+
+    }
+    printf("\n Dato insertado correctamente \n");
+}
+
+void insertar_lista_final(Nodo *& cabeza,Nodo *& cola,int num)
+{
+    Nodo *nuevo_nodo = reservar_memoria;
+    nuevo_nodo -> dato = num;
+
+    if(vacia_listas(cabeza)){
+        cabeza = nuevo_nodo;
+        nuevo_nodo -> siguiente = NULL;
+        cola=nuevo_nodo;
+    }else{
+        cola -> siguiente = nuevo_nodo;
+        nuevo_nodo ->siguiente=NULL;
+        cola=nuevo_nodo;
+    }
+    printf("\n Dato insertado correctamente \n");
+}
+
 
 
 /*
